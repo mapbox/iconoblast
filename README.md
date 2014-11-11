@@ -4,4 +4,4 @@ App icon dev info burning for iOS and Android.
 
 ![](./sample.png)
 
-Inspired by [IconOverlaying](https://github.com/krzysztofzablocki/IconOverlaying) and brought to light by [@sranderson](https://github.com/sranderson]). 
+Inspired by and borrowing heavily by [@krzysztofzablocki](https://github.com/krzysztofzablocki)'s [IconOverlaying](https://github.com/krzysztofzablocki/IconOverlaying) and brought to my attention by [@sranderson](https://github.com/sranderson]). 
