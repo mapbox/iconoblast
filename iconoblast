@@ -7,8 +7,8 @@ if [[ -z `which convert` || -z `which gs` ]]; then
     exit 1
 fi
 
-if [[ -z $1 || -z $2 || -z $3 || -z $4 ]]; then
-    echo "Usage: $0 <icon> <commit> <branch> <repo>"
+if [[ -z $1 || -z $2 || -z $3 ]]; then
+    echo "Usage: $0 <icon> <commit> <branch> (<repo>)"
     exit 1
 fi
 
@@ -19,9 +19,15 @@ commit=$2
 branch=$3
 repo=$4
 
-caption="${repo}\n${branch}\n${commit}"
-echo "burning caption:"
-echo $caption
+line_count=2
+caption="${branch}\n${commit}"
+
+if [[ $repo ]]; then
+	caption="${repo}\n${caption}"
+	line_count=$(($line_count + 1))
+fi
+
+echo "burning caption ${caption}"
 
 if [[ `uname -s` == 'Darwin' ]]; then
     xcrun -sdk iphoneos pngcrush -revert-iphone-optimizations -q ${base_path} ${base_path}-out
@@ -30,10 +36,10 @@ fi
 
 width=`identify -format %w ${base_path}`
 height=`identify -format %h ${base_path}`
-band_height=$((($height * 47) / 100))
+point_size=$(((13 * $width) / 100))
+band_height=$(($line_count * $point_size + 15))
 band_position=$(($height - $band_height))
 text_position=$(($band_position - 3))
-point_size=$(((13 * $width) / 100))
 
 echo "image dimensions ${width}x${height} - band height ${band_height} @ ${band_position} - point size ${point_size}"
 
