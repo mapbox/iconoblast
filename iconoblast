@@ -42,7 +42,7 @@ fi
 width=`identify -format %w ${base_path}`
 height=`identify -format %h ${base_path}`
 point_size=$(((13 * $width) / 100))
-band_height=$(($line_count * $point_size + 15))
+band_height=$(($line_count * $point_size + ($height / 10)))
 band_position=$(($height - $band_height))
 text_position=$(($band_position - 3))
 
