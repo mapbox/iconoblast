@@ -8,19 +8,19 @@ if [[ -z `which convert` || -z `which gs` ]]; then
 fi
 
 if [[ -z $1 || -z $2 ]]; then
-    echo "Usage: $0 <icon> <commit> (<branch>) (<repo>)"
+    echo "Usage: $0 <icon> <version> (<branch>) (<repo>)"
     exit 1
 fi
 
 base_path=$1
 echo "burning file ${base_path}"
 
-commit=$2
+version=$2
 branch=$3
 repo=$4
 
 line_count=1
-caption="${commit}"
+caption="${version}"
 
 if [[ $branch ]]; then
 	caption="${branch}\n${caption}"
