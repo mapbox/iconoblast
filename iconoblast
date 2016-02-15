@@ -7,8 +7,8 @@ if [[ -z `which convert` || -z `which gs` ]]; then
     exit 1
 fi
 
-if [[ -z $1 || -z $2 || -z $3 ]]; then
-    echo "Usage: $0 <icon> <commit> <branch> (<repo>)"
+if [[ -z $1 || -z $2 ]]; then
+    echo "Usage: $0 <icon> <commit> (<branch>) (<repo>)"
     exit 1
 fi
 
@@ -19,8 +19,13 @@ commit=$2
 branch=$3
 repo=$4
 
-line_count=2
-caption="${branch}\n${commit}"
+line_count=1
+caption="${commit}"
+
+if [[ $branch ]]; then
+	caption="${branch}\n${caption}"
+	line_count=$(($line_count + 1))
+fi
 
 if [[ $repo ]]; then
 	caption="${repo}\n${caption}"
