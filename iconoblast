@@ -7,21 +7,32 @@ if [[ -z `which convert` || -z `which gs` ]]; then
     exit 1
 fi
 
-if [[ -z $1 || -z $2 || -z $3 || -z $4 ]]; then
-    echo "Usage: $0 <icon> <commit> <branch> <repo>"
+if [[ -z $1 || -z $2 ]]; then
+    echo "Usage: $0 <icon> <version> (<branch>) (<repo>)"
     exit 1
 fi
 
 base_path=$1
 echo "burning file ${base_path}"
 
-commit=$2
+version=$2
 branch=$3
 repo=$4
 
-caption="${repo}\n${branch}\n${commit}"
-echo "burning caption:"
-echo $caption
+line_count=1
+caption="${version}"
+
+if [[ $branch ]]; then
+	caption="${branch}\n${caption}"
+	line_count=$(($line_count + 1))
+fi
+
+if [[ $repo ]]; then
+	caption="${repo}\n${caption}"
+	line_count=$(($line_count + 1))
+fi
+
+echo "burning caption ${caption}"
 
 if [[ `uname -s` == 'Darwin' ]]; then
     xcrun -sdk iphoneos pngcrush -revert-iphone-optimizations -q ${base_path} ${base_path}-out
@@ -30,14 +41,14 @@ fi
 
 width=`identify -format %w ${base_path}`
 height=`identify -format %h ${base_path}`
-band_height=$((($height * 47) / 100))
+point_size=$(((13 * $width) / 100))
+band_height=$(($line_count * $point_size + ($height / 10)))
 band_position=$(($height - $band_height))
 text_position=$(($band_position - 3))
-point_size=$(((13 * $width) / 100))
 
 echo "image dimensions ${width}x${height} - band height ${band_height} @ ${band_position} - point size ${point_size}"
 
-convert ${base_path} -blur 10x8 /tmp/blurred.png
+convert ${base_path} -blur 10x3 /tmp/blurred.png
 convert /tmp/blurred.png -gamma 0 -fill white -draw "rectangle 0,$band_position,$width,$height" /tmp/mask.png
 convert -size ${width}x${band_height} xc:none -fill 'rgba(0,0,0,0.2)' -draw "rectangle 0,0,$width,$band_height" /tmp/labels-base.png
 convert -background none -size ${width}x${band_height} -pointsize $point_size -fill white -gravity center -gravity South caption:"$caption" /tmp/labels.png
