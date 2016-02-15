@@ -48,7 +48,7 @@ text_position=$(($band_position - 3))
 
 echo "image dimensions ${width}x${height} - band height ${band_height} @ ${band_position} - point size ${point_size}"
 
-convert ${base_path} -blur 10x8 /tmp/blurred.png
+convert ${base_path} -blur 10x3 /tmp/blurred.png
 convert /tmp/blurred.png -gamma 0 -fill white -draw "rectangle 0,$band_position,$width,$height" /tmp/mask.png
 convert -size ${width}x${band_height} xc:none -fill 'rgba(0,0,0,0.2)' -draw "rectangle 0,0,$width,$band_height" /tmp/labels-base.png
 convert -background none -size ${width}x${band_height} -pointsize $point_size -fill white -gravity center -gravity South caption:"$caption" /tmp/labels.png
