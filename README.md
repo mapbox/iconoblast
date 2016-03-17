@@ -17,3 +17,7 @@ iconoblast icon.png f801f5b master gl-native
 The idea is you'd run this yourself in an Xcode build phase or however we'll eventually automatically do this in Android Studio on each app icon in your build product. 
 
 If you want a bit more Xcode automation and figuring out stuff for you, check out the original [IconOverlaying](https://github.com/krzysztofzablocki/IconOverlaying). My goal here was to make this more generic and usable on non-Apple platforms. 
+
+## Other tools
+
+- [Badge](https://github.com/HazAT/badge) — burn images into your icon
